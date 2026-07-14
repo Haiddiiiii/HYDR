@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HYDR'S — Luxury Clothing Brand</title>
+  <meta name="description" content="HYDR'S is a premium luxury clothing brand crafting timeless pieces for those who demand excellence. Explore our exclusive collections." />
+  <meta name="keywords" content="luxury clothing, premium fashion, HYDR'S, designer wear, exclusive collection" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C96A;
+      --gold-pale: #F5E6C0;
+      --black: #050505;
+      --deep: #0A0A0A;
+      --dark: #111111;
+      --surface: #181818;
+      --surface2: #1E1E1E;
+      --muted: #888;
+      --text: #E8E0D0;
+      --text-dim: #B0A898;
+      --white: #FAFAF8;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Montserrat', Arial, sans-serif;
+      --transition: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--black);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+    #cursor {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transition: transform 0.1s var(--transition);
+    }
+    #cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,168,76,0.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transition: transform 0.15s var(--transition), width 0.3s, height 0.3s;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 60px;
+      transition: all 0.4s var(--transition);
+    }
+    nav.scrolled {
+      padding: 16px 60px;
+      background: rgba(5,5,5,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 28px; font-weight: 700;
+      letter-spacing: 8px; color: var(--gold); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-family: var(--sans); font-size: 11px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim);
+      text-decoration: none; position: relative; transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width 0.4s var(--transition);
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      font-family: var(--sans); font-size: 11px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--black); background: var(--gold);
+      border: none; padding: 12px 28px; cursor: none; text-decoration: none;
+      transition: all 0.3s var(--transition);
+    }
+    .nav-cta:hover {
+      background: var(--gold-light);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+    }
+    .hamburger {
+      display: none; flex-direction: column;
+      gap: 5px; cursor: none; background: none; border: none;
+    }
+    .hamburger span { display: block; width: 24px; height: 1px; background: var(--gold); }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0;
+      background: rgba(5,5,5,0.98); z-index: 999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--serif); font-size: 36px; font-weight: 300;
+      color: var(--text); text-decoration: none; letter-spacing: 4px; transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* HERO */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('hydr_hero_bg.jpg');
+      background-size: cover; background-position: center;
+      filter: brightness(0.35); transform: scale(1.05);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(5,5,5,0.3) 0%, rgba(5,5,5,0.05) 50%, rgba(5,5,5,0.85) 100%);
+    }
+    .hero-content { position: relative; z-index: 1; text-align: center; padding: 0 20px; }
+    .hero-tag {
+      display: inline-block; font-family: var(--sans); font-size: 10px;
+      font-weight: 600; letter-spacing: 6px; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(201,168,76,0.4);
+      padding: 8px 24px; margin-bottom: 32px;
+      animation: fadeUp 1s 0.2s both;
+    }
+    .hero-title {
+      font-family: var(--serif); font-size: clamp(72px, 14vw, 160px);
+      font-weight: 300; letter-spacing: 16px; line-height: 0.9; color: var(--white);
+      animation: fadeUp 1s 0.4s both;
+    }
+    .hero-title span { color: var(--gold); font-style: italic; }
+    .hero-sub {
+      font-family: var(--sans); font-size: 13px; font-weight: 300;
+      letter-spacing: 5px; text-transform: uppercase; color: var(--text-dim);
+      margin-top: 24px; animation: fadeUp 1s 0.6s both;
+    }
+    .hero-actions {
+      display: flex; gap: 20px; justify-content: center;
+      margin-top: 52px; animation: fadeUp 1s 0.8s both;
+    }
+    .btn-primary {
+      font-family: var(--sans); font-size: 11px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--black); background: var(--gold);
+      border: none; padding: 18px 48px; cursor: none; text-decoration: none;
+      transition: all 0.3s var(--transition); display: inline-block;
+    }
+    .btn-primary:hover {
+      background: var(--gold-light); transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(201,168,76,0.4);
+    }
+    .btn-outline {
+      font-family: var(--sans); font-size: 11px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); background: transparent;
+      border: 1px solid rgba(201,168,76,0.5); padding: 18px 48px;
+      cursor: none; text-decoration: none;
+      transition: all 0.3s var(--transition); display: inline-block;
+    }
+    .btn-outline:hover {
+      background: rgba(201,168,76,0.08); border-color: var(--gold); transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      animation: fadeUp 1s 1.2s both;
+    }
+    .hero-scroll span { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); }
+    .scroll-line {
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:0.4;transform:scaleY(0.8)} }
+
+    /* SECTION BASE */
+    section { padding: 120px 60px; }
+    .section-label {
+      font-family: var(--sans); font-size: 10px; font-weight: 600;
+      letter-spacing: 6px; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 16px; display: flex; align-items: center; gap: 16px;
+    }
+    .section-label::before { content:''; display:block; width:40px; height:1px; background:var(--gold); }
+    .section-title {
+      font-family: var(--serif); font-size: clamp(36px, 5vw, 64px);
+      font-weight: 300; line-height: 1.1; color: var(--white);
+    }
+    .section-title em { color: var(--gold); font-style: italic; }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid rgba(201,168,76,0.15);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 20px 0; background: var(--deep);
+    }
+    .marquee-track {
+      display: flex; gap: 60px;
+      animation: marquee 20s linear infinite; white-space: nowrap;
+    }
+    .marquee-item {
+      font-family: var(--serif); font-size: 18px; font-weight: 300;
+      letter-spacing: 4px; color: var(--text-dim);
+      display: flex; align-items: center; gap: 20px; flex-shrink: 0;
+    }
+    .marquee-item .dot { width:5px; height:5px; background:var(--gold); border-radius:50%; flex-shrink:0; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ABOUT */
+    #about { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-img-wrap { position: relative; }
+    .about-img-wrap img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
+    .about-img-badge {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--gold); color: var(--black);
+      width: 120px; height: 120px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .about-img-badge span:first-child { font-family:var(--serif); font-size:36px; font-weight:700; line-height:1; }
+    .about-img-badge span:last-child { font-size:9px; letter-spacing:2px; text-transform:uppercase; font-weight:600; }
+    .about-text { padding-left: 20px; }
+    .about-text p { font-size:16px; line-height:1.9; color:var(--text-dim); margin-top:24px; margin-bottom:16px; }
+    .about-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+      margin-top: 40px; border-top: 1px solid rgba(201,168,76,0.15); padding-top: 40px;
+    }
+    .stat-num { font-family:var(--serif); font-size:42px; font-weight:300; color:var(--gold); line-height:1; }
+    .stat-label { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-top:8px; }
+
+    /* COLLECTIONS */
+    #collections { background: var(--deep); }
+    .collections-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:60px; }
+    .collections-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+    .collection-card { position:relative; overflow:hidden; aspect-ratio:3/4; cursor:none; }
+    .collection-card img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s var(--transition), filter 0.7s; }
+    .collection-card:hover img { transform:scale(1.06); filter:brightness(0.6); }
+    .collection-overlay { position:absolute; inset:0; background:linear-gradient(180deg,transparent 40%,rgba(5,5,5,0.9) 100%); }
+    .collection-info {
+      position:absolute; bottom:0; left:0; right:0; padding:32px;
+      transform:translateY(20px); transition:transform 0.4s var(--transition);
+    }
+    .collection-card:hover .collection-info { transform:translateY(0); }
+    .coll-tag { font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; display:block; }
+    .coll-name { font-family:var(--serif); font-size:28px; font-weight:300; color:var(--white); margin-bottom:4px; }
+    .coll-price { font-size:13px; letter-spacing:2px; color:var(--text-dim); }
+    .coll-btn {
+      display:inline-block; margin-top:16px; font-size:10px; letter-spacing:3px; text-transform:uppercase;
+      color:var(--gold); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:3px;
+      opacity:0; transition:opacity 0.4s 0.1s;
+    }
+    .collection-card:hover .coll-btn { opacity:1; }
+
+    /* SERVICES */
+    .services-header { margin-bottom:80px; }
+    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+    .service-card {
+      background:var(--surface); padding:48px 40px;
+      border:1px solid rgba(201,168,76,0.06);
+      transition:all 0.4s var(--transition); position:relative; overflow:hidden;
+    }
+    .service-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background:var(--gold); transform:scaleX(0); transform-origin:left;
+      transition:transform 0.4s var(--transition);
+    }
+    .service-card:hover { background:var(--surface2); transform:translateY(-4px); }
+    .service-card:hover::before { transform:scaleX(1); }
+    .service-num { font-family:var(--serif); font-size:56px; font-weight:300; color:rgba(201,168,76,0.15); line-height:1; margin-bottom:24px; }
+    .service-icon {
+      width:48px; height:48px; background:rgba(201,168,76,0.1); border-radius:50%;
+      display:flex; align-items:center; justify-content:center; margin-bottom:24px;
+      font-size:20px; transition:background 0.3s;
+    }
+    .service-card:hover .service-icon { background:rgba(201,168,76,0.2); }
+    .service-name { font-family:var(--serif); font-size:26px; font-weight:400; color:var(--white); margin-bottom:16px; }
+    .service-desc { font-size:13px; line-height:1.8; color:var(--text-dim); }
+
+    /* PRICING */
+    #pricing { background:var(--deep); }
+    .pricing-header { text-align:center; margin-bottom:80px; }
+    .pricing-header .section-label { justify-content:center; }
+    .pricing-header .section-label::before { display:none; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; max-width:1100px; margin:0 auto; }
+    .pricing-card {
+      background:var(--surface); padding:56px 40px;
+      border:1px solid rgba(201,168,76,0.08);
+      transition:all 0.4s var(--transition); position:relative;
+    }
+    .pricing-card.featured { background:var(--surface2); border-color:rgba(201,168,76,0.4); transform:scale(1.04); z-index:2; }
+    .pricing-badge {
+      position:absolute; top:-1px; right:32px;
+      background:var(--gold); color:var(--black);
+      font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; padding:6px 16px;
+    }
+    .pricing-tier { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+    .pricing-name { font-family:var(--serif); font-size:32px; font-weight:300; color:var(--white); margin-bottom:32px; }
+    .pricing-price { display:flex; align-items:flex-start; gap:4px; margin-bottom:8px; }
+    .price-cur { font-size:20px; color:var(--gold); margin-top:8px; font-family:var(--serif); }
+    .price-amt { font-family:var(--serif); font-size:72px; font-weight:300; color:var(--white); line-height:1; }
+    .price-period { font-size:11px; letter-spacing:2px; color:var(--muted); margin-bottom:40px; }
+    .pricing-divider { height:1px; background:rgba(201,168,76,0.15); margin-bottom:40px; }
+    .pricing-features { list-style:none; display:flex; flex-direction:column; gap:16px; margin-bottom:48px; }
+    .pricing-features li { font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:12px; }
+    .pricing-features li::before { content:'✦'; color:var(--gold); font-size:10px; flex-shrink:0; }
+    .pricing-btn {
+      display:block; text-align:center; font-family:var(--sans); font-size:11px;
+      font-weight:600; letter-spacing:3px; text-transform:uppercase; text-decoration:none;
+      padding:16px; transition:all 0.3s var(--transition);
+    }
+    .pricing-btn-outline { color:var(--gold); border:1px solid rgba(201,168,76,0.4); }
+    .pricing-btn-outline:hover { background:rgba(201,168,76,0.08); border-color:var(--gold); }
+    .pricing-btn-solid { background:var(--gold); color:var(--black); }
+    .pricing-btn-solid:hover { background:var(--gold-light); box-shadow:0 8px 32px rgba(201,168,76,0.35); }
+
+    /* TESTIMONIALS */
+    .testimonials-header { margin-bottom:80px; }
+    .testimonials-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .testimonial-card {
+      background:var(--surface); padding:48px 40px;
+      border:1px solid rgba(201,168,76,0.08);
+      transition:all 0.4s var(--transition);
+    }
+    .testimonial-card:hover { border-color:rgba(201,168,76,0.25); transform:translateY(-4px); }
+    .testimonial-quote { font-family:var(--serif); font-size:80px; color:rgba(201,168,76,0.2); line-height:0.5; margin-bottom:32px; }
+    .testimonial-text { font-family:var(--serif); font-size:18px; font-style:italic; font-weight:300; line-height:1.7; color:var(--text); margin-bottom:32px; }
+    .testimonial-author { display:flex; align-items:center; gap:16px; }
+    .author-avatar {
+      width:48px; height:48px; border-radius:50%;
+      background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.3);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--serif); font-size:20px; color:var(--gold);
+    }
+    .author-name { font-weight:600; font-size:13px; color:var(--white); letter-spacing:1px; }
+    .author-title { font-size:11px; color:var(--muted); letter-spacing:1px; margin-top:2px; }
+    .stars { color:var(--gold); font-size:12px; margin-bottom:16px; letter-spacing:2px; }
+
+    /* CONTACT */
+    #contact { background:var(--deep); }
+    .contact-wrap { display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:start; }
+    .contact-info h3 { font-family:var(--serif); font-size:20px; font-weight:400; color:var(--gold); margin-bottom:8px; }
+    .contact-items { margin-top:48px; display:flex; flex-direction:column; gap:32px; }
+    .contact-item { display:flex; align-items:flex-start; gap:20px; }
+    .contact-item-icon {
+      width:44px; height:44px; flex-shrink:0;
+      background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2);
+      display:flex; align-items:center; justify-content:center; font-size:18px;
+    }
+    .contact-item-label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+    .contact-item-val { font-size:14px; color:var(--text); }
+    .contact-form { display:flex; flex-direction:column; gap:24px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-group { display:flex; flex-direction:column; gap:8px; }
+    .form-label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+    .form-input, .form-textarea {
+      background:var(--surface); border:1px solid rgba(201,168,76,0.15);
+      color:var(--text); padding:16px 20px;
+      font-family:var(--sans); font-size:14px; outline:none;
+      transition:border-color 0.3s; resize:none;
+    }
+    .form-input:focus, .form-textarea:focus { border-color:var(--gold); }
+    .form-textarea { min-height:140px; }
+    .form-submit {
+      background:var(--gold); color:var(--black); border:none; padding:18px 48px;
+      font-family:var(--sans); font-size:11px; font-weight:700;
+      letter-spacing:4px; text-transform:uppercase; cursor:none;
+      transition:all 0.3s var(--transition); align-self:flex-start;
+    }
+    .form-submit:hover { background:var(--gold-light); transform:translateY(-2px); box-shadow:0 12px 40px rgba(201,168,76,0.35); }
+
+    /* FOOTER */
+    footer { background:var(--black); border-top:1px solid rgba(201,168,76,0.15); padding:80px 60px 40px; }
+    .footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:60px; margin-bottom:60px; }
+    .footer-logo { font-family:var(--serif); font-size:32px; font-weight:700; letter-spacing:8px; color:var(--gold); display:block; margin-bottom:20px; text-decoration:none; }
+    .footer-brand p { font-size:13px; color:var(--text-dim); line-height:1.7; max-width:280px; }
+    .footer-socials { display:flex; gap:12px; margin-top:28px; }
+    .social-btn {
+      width:40px; height:40px; border:1px solid rgba(201,168,76,0.2);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--muted); font-size:12px; font-weight:600; text-decoration:none;
+      font-family:var(--sans); transition:all 0.3s;
+    }
+    .social-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,0.08); }
+    .footer-col h4 { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:24px; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:12px; }
+    .footer-col ul a { font-size:13px; color:var(--text-dim); text-decoration:none; transition:color 0.3s; }
+    .footer-col ul a:hover { color:var(--gold); }
+    .footer-bottom {
+      border-top:1px solid rgba(201,168,76,0.1); padding-top:32px;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .footer-bottom p { font-size:11px; color:var(--muted); letter-spacing:1px; }
+    .footer-bottom a { color:var(--gold); text-decoration:none; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0; transform:translateY(40px); transition:opacity 0.8s var(--transition), transform 0.8s var(--transition); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-delay-1 { transition-delay:0.1s; }
+    .reveal-delay-2 { transition-delay:0.2s; }
+    .reveal-delay-3 { transition-delay:0.3s; }
+    .reveal-delay-4 { transition-delay:0.4s; }
+
+    /* RESPONSIVE */
+    @media (max-width:1024px) {
+      section { padding:80px 40px; }
+      nav, nav.scrolled { padding:20px 40px; }
+      .footer-top { grid-template-columns:1fr 1fr; gap:40px; }
+      .collections-grid,.services-grid,.pricing-grid,.testimonials-grid { grid-template-columns:1fr 1fr; }
+      .pricing-card.featured { transform:scale(1); }
+      #about { grid-template-columns:1fr; }
+      .about-text { padding-left:0; }
+      .contact-wrap { grid-template-columns:1fr; gap:60px; }
+    }
+    @media (max-width:768px) {
+      section { padding:60px 24px; }
+      nav, nav.scrolled { padding:16px 24px; }
+      .nav-links,.nav-cta { display:none; }
+      .hamburger { display:flex; }
+      .hero-actions { flex-direction:column; align-items:center; }
+      .collections-grid,.services-grid,.pricing-grid,.testimonials-grid { grid-template-columns:1fr; }
+      .footer-top { grid-template-columns:1fr; }
+      .form-row { grid-template-columns:1fr; }
+      .collections-header { flex-direction:column; align-items:flex-start; gap:20px; }
+      footer { padding:60px 24px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">HYDR'S</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Shop Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#collections" onclick="closeMobile()">Collections</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#pricing" onclick="closeMobile()">Pricing</a>
+  <a href="#testimonials" onclick="closeMobile()">Reviews</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">✦ New Collection 2026 ✦</div>
+    <h1 class="hero-title">HYDR<span>'S</span></h1>
+    <p class="hero-sub">Wear the extraordinary</p>
+    <div class="hero-actions">
+      <a href="#collections" class="btn-primary" id="hero-explore-btn">Explore Collection</a>
+      <a href="#about" class="btn-outline" id="hero-story-btn">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="dot"></span>Premium Fabrics</span>
+    <span class="marquee-item"><span class="dot"></span>Handcrafted Excellence</span>
+    <span class="marquee-item"><span class="dot"></span>Timeless Design</span>
+    <span class="marquee-item"><span class="dot"></span>Limited Collections</span>
+    <span class="marquee-item"><span class="dot"></span>Luxury Redefined</span>
+    <span class="marquee-item"><span class="dot"></span>Global Shipping</span>
+    <span class="marquee-item"><span class="dot"></span>Premium Fabrics</span>
+    <span class="marquee-item"><span class="dot"></span>Handcrafted Excellence</span>
+    <span class="marquee-item"><span class="dot"></span>Timeless Design</span>
+    <span class="marquee-item"><span class="dot"></span>Limited Collections</span>
+    <span class="marquee-item"><span class="dot"></span>Luxury Redefined</span>
+    <span class="marquee-item"><span class="dot"></span>Global Shipping</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img-wrap reveal">
+    <img src="hydr_about_img.jpg" alt="HYDR'S Atelier" />
+    <div class="about-img-badge"><span>12</span><span>Years</span></div>
+  </div>
+  <div class="about-text">
+    <div class="section-label reveal">Our Heritage</div>
+    <h2 class="section-title reveal reveal-delay-1">Born from a <em>vision</em> of pure elegance</h2>
+    <p class="reveal reveal-delay-2">HYDR'S was founded on the belief that clothing is more than fabric — it is a statement, a legacy, an art form. Each piece in our collection is meticulously crafted using the world's finest materials, designed to transcend seasons and trends.</p>
+    <p class="reveal reveal-delay-2">From our atelier to your wardrobe, every stitch carries the weight of our commitment to uncompromising quality and timeless sophistication.</p>
+    <a href="#collections" class="btn-primary reveal reveal-delay-3" id="about-shop-btn" style="margin-top:24px;">Shop the Collection</a>
+    <div class="about-stats">
+      <div class="stat-item reveal reveal-delay-1"><div class="stat-num" id="stat1">0+</div><div class="stat-label">Years of Craft</div></div>
+      <div class="stat-item reveal reveal-delay-2"><div class="stat-num" id="stat2">0K+</div><div class="stat-label">Happy Clients</div></div>
+      <div class="stat-item reveal reveal-delay-3"><div class="stat-num" id="stat3">0+</div><div class="stat-label">Unique Pieces</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLECTIONS -->
+<section id="collections">
+  <div class="collections-header reveal">
+    <div>
+      <div class="section-label">Our Collections</div>
+      <h2 class="section-title">Curated for the <em>extraordinary</em></h2>
+    </div>
+    <a href="#contact" class="btn-outline" id="view-all-btn">View All</a>
+  </div>
+  <div class="collections-grid">
+    <div class="collection-card reveal">
+      <img src="hydr_collection1.jpg" alt="Noir Signature Collection" />
+      <div class="collection-overlay"></div>
+      <div class="collection-info">
+        <span class="coll-tag">Men's Collection</span>
+        <div class="coll-name">Noir Signature</div>
+        <div class="coll-price">From $380</div>
+        <a href="#contact" class="coll-btn" id="coll1-btn">Explore →</a>
+      </div>
+    </div>
+    <div class="collection-card reveal reveal-delay-1">
+      <img src="hydr_collection2.jpg" alt="Lumière Collection" />
+      <div class="collection-overlay"></div>
+      <div class="collection-info">
+        <span class="coll-tag">Women's Collection</span>
+        <div class="coll-name">Lumière</div>
+        <div class="coll-price">From $420</div>
+        <a href="#contact" class="coll-btn" id="coll2-btn">Explore →</a>
+      </div>
+    </div>
+    <div class="collection-card reveal reveal-delay-2">
+      <img src="hydr_collection3.jpg" alt="Urban Edge Collection" />
+      <div class="collection-overlay"></div>
+      <div class="collection-info">
+        <span class="coll-tag">Streetwear</span>
+        <div class="coll-name">Urban Edge</div>
+        <div class="coll-price">From $290</div>
+        <a href="#contact" class="coll-btn" id="coll3-btn">Explore →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div class="section-label reveal">What We Offer</div>
+    <h2 class="section-title reveal reveal-delay-1">The HYDR'S <em>experience</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon">✂️</div>
+      <div class="service-name">Bespoke Tailoring</div>
+      <p class="service-desc">Every piece crafted to your exact measurements. Our master tailors bring decades of expertise to create garments that move with your body perfectly.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-num">02</div>
+      <div class="service-icon">👘</div>
+      <div class="service-name">Ready-to-Wear</div>
+      <p class="service-desc">Premium off-the-rack collections that redefine what off-the-shelf means. Curated seasonal drops in limited quantities for an exclusive feel.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-num">03</div>
+      <div class="service-icon">🧵</div>
+      <div class="service-name">Custom Design</div>
+      <p class="service-desc">Work one-on-one with our lead designers to create a one-of-a-kind piece. From concept to completion, your vision becomes wearable art.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-num">04</div>
+      <div class="service-icon">📦</div>
+      <div class="service-name">Global Delivery</div>
+      <p class="service-desc">We ship to over 60 countries worldwide. Every order arrives in our signature black-and-gold packaging — an experience from the very first moment.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-num">05</div>
+      <div class="service-icon">🔑</div>
+      <div class="service-name">Members Club</div>
+      <p class="service-desc">Join our exclusive HYDR'S Black Card program. Early access to drops, private shopping events, and a dedicated personal stylist at your service.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-num">06</div>
+      <div class="service-icon">✨</div>
+      <div class="service-name">Styling Sessions</div>
+      <p class="service-desc">Book a private in-person or virtual styling consultation. Our experts help you build a wardrobe that tells your story beautifully.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="pricing-header">
+    <div class="section-label reveal">Membership Plans</div>
+    <h2 class="section-title reveal reveal-delay-1">Choose your <em>tier</em></h2>
+    <p style="color:var(--text-dim);font-size:14px;margin-top:16px;" class="reveal reveal-delay-2">Unlock exclusive benefits and priority access with our membership plans</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal">
+      <div class="pricing-tier">Essential</div>
+      <div class="pricing-name">Silver</div>
+      <div class="pricing-price"><span class="price-cur">$</span><span class="price-amt">49</span></div>
+      <div class="price-period">/ month</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Access to Ready-to-Wear collections</li>
+        <li>10% member discount on all orders</li>
+        <li>Free standard shipping</li>
+        <li>Early sale notifications</li>
+        <li>Monthly style newsletter</li>
+      </ul>
+      <a href="#contact" class="pricing-btn pricing-btn-outline" id="silver-btn">Get Started</a>
+    </div>
+    <div class="pricing-card featured reveal reveal-delay-1">
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-tier">Premium</div>
+      <div class="pricing-name">Gold</div>
+      <div class="pricing-price"><span class="price-cur">$</span><span class="price-amt">149</span></div>
+      <div class="price-period">/ month</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Everything in Silver</li>
+        <li>25% member discount on all orders</li>
+        <li>Priority express shipping worldwide</li>
+        <li>Early access to new drops</li>
+        <li>1 styling session per quarter</li>
+        <li>Exclusive members-only pieces</li>
+      </ul>
+      <a href="#contact" class="pricing-btn pricing-btn-solid" id="gold-btn">Join Gold</a>
+    </div>
+    <div class="pricing-card reveal reveal-delay-2">
+      <div class="pricing-tier">Elite</div>
+      <div class="pricing-name">Black</div>
+      <div class="pricing-price"><span class="price-cur">$</span><span class="price-amt">399</span></div>
+      <div class="price-period">/ month</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Everything in Gold</li>
+        <li>Bespoke tailoring included</li>
+        <li>Personal dedicated stylist</li>
+        <li>Private shopping events</li>
+        <li>Annual custom-designed piece</li>
+        <li>Unlimited styling sessions</li>
+        <li>Signature gifting service</li>
+      </ul>
+      <a href="#contact" class="pricing-btn pricing-btn-outline" id="black-btn">Apply Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-header">
+    <div class="section-label reveal">Client Stories</div>
+    <h2 class="section-title reveal reveal-delay-1">Worn by the <em>bold</em></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="stars">★★★★★</div>
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">HYDR'S has completely transformed how I think about my wardrobe. The quality is unlike anything I've experienced at this price point. Every piece feels like it was made for me.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">A</div>
+        <div><div class="author-name">Alexandra V.</div><div class="author-title">Fashion Director, Dubai</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-1">
+      <div class="stars">★★★★★</div>
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">The bespoke suit I ordered for my wedding was absolutely perfect. The tailors understood exactly what I wanted and delivered something beyond my imagination. Truly world-class.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">J</div>
+        <div><div class="author-name">James Thornton</div><div class="author-title">Entrepreneur, London</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-2">
+      <div class="stars">★★★★★</div>
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">I've shopped luxury brands across the globe, and HYDR'S stands in a league of its own. The attention to detail, the packaging, the customer experience — all flawless.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">S</div>
+        <div><div class="author-name">Soraya M.</div><div class="author-title">Creative Executive, Paris</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-info reveal">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title">Let's craft something <em>exceptional</em></h2>
+      <p style="margin-top:24px;color:var(--text-dim);font-size:14px;line-height:1.8;">Whether you have a question about our collections, want to book a styling session, or are interested in a bespoke order — our team is here for you.</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div><div class="contact-item-label">Flagship Store</div><div class="contact-item-val">14 Avenue Montaigne, Paris, France</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">✉️</div>
+          <div><div class="contact-item-label">Email Us</div><div class="contact-item-val">hello@hydrs.com</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div><div class="contact-item-label">Call Us</div><div class="contact-item-val">+33 1 42 56 78 90</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal reveal-delay-2">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label" for="fname">First Name</label><input class="form-input" id="fname" type="text" placeholder="Your first name" /></div>
+        <div class="form-group"><label class="form-label" for="lname">Last Name</label><input class="form-input" id="lname" type="text" placeholder="Your last name" /></div>
+      </div>
+      <div class="form-group"><label class="form-label" for="email">Email Address</label><input class="form-input" id="email" type="email" placeholder="your@email.com" /></div>
+      <div class="form-group"><label class="form-label" for="subject">Subject</label><input class="form-input" id="subject" type="text" placeholder="What can we help you with?" /></div>
+      <div class="form-group"><label class="form-label" for="message">Message</label><textarea class="form-textarea" id="message" placeholder="Tell us more…"></textarea></div>
+      <button class="form-submit" id="submit-btn" type="button" onclick="handleSubmit()">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#hero" class="footer-logo">HYDR'S</a>
+      <p>Redefining luxury clothing for those who live boldly. Handcrafted with passion, worn with pride.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" id="social-ig" aria-label="Instagram">IG</a>
+        <a href="#" class="social-btn" id="social-tw" aria-label="Twitter">TW</a>
+        <a href="#" class="social-btn" id="social-fb" aria-label="Facebook">FB</a>
+        <a href="#" class="social-btn" id="social-yt" aria-label="YouTube">YT</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Collections</h4>
+      <ul>
+        <li><a href="#collections">Noir Signature</a></li>
+        <li><a href="#collections">Lumière</a></li>
+        <li><a href="#collections">Urban Edge</a></li>
+        <li><a href="#collections">Accessories</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">Our Story</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#pricing">Membership</a></li>
+        <li><a href="#contact">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#contact">Contact Us</a></li>
+        <li><a href="#contact">Shipping Info</a></li>
+        <li><a href="#contact">Returns</a></li>
+        <li><a href="#contact">Size Guide</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <a href="#">HYDR'S</a>. All rights reserved. Crafted with excellence.</p>
+    <p><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Service</a></p>
+  </div>
+</footer>
+
+<script>
+  // CURSOR
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    cursor.style.transform = `translate(${mx-5}px,${my-5}px)`;
+  });
+  function animRing() {
+    rx += (mx-rx)*0.12; ry += (my-ry)*0.12;
+    ring.style.transform = `translate(${rx-18}px,${ry-18}px)`;
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // NAVBAR SCROLL
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // MOBILE MENU
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  });
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // REVEAL ON SCROLL
+  const reveals = document.querySelectorAll('.reveal');
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold:0.1}).observe ? 
+  (() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, {threshold:0.1});
+    reveals.forEach(el => obs.observe(el));
+  })() : reveals.forEach(el => el.classList.add('visible'));
+
+  // HERO PARALLAX
+  window.addEventListener('scroll', () => {
+    const bg = document.getElementById('heroBg');
+    if(bg) bg.style.transform = `scale(1.05) translateY(${window.scrollY*0.25}px)`;
+  });
+
+  // COUNTER ANIMATION
+  function animCounter(el, target, suffix) {
+    let cur=0; const step=target/60;
+    const t = setInterval(() => {
+      cur += step;
+      if(cur >= target) { cur=target; clearInterval(t); }
+      el.textContent = Math.floor(cur) + suffix;
+    }, 24);
+  }
+  const statsEl = document.querySelector('.about-stats');
+  if(statsEl) {
+    new IntersectionObserver((entries) => {
+      if(entries[0].isIntersecting) {
+        animCounter(document.getElementById('stat1'), 12, '+');
+        animCounter(document.getElementById('stat2'), 40, 'K+');
+        animCounter(document.getElementById('stat3'), 120, '+');
+        entries[0].target._triggered = true;
+      }
+    }, {threshold:0.3}).observe(statsEl);
+  }
+
+  // FORM SUBMIT
+  function handleSubmit() {
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Sending…'; btn.style.opacity = '0.7';
+    setTimeout(() => {
+      btn.textContent = 'Message Sent ✦';
+      btn.style.background = '#2d6a45'; btn.style.color = '#fff'; btn.style.opacity = '1';
+      ['fname','lname','email','subject','message'].forEach(id => {
+        const el=document.getElementById(id); if(el) el.value='';
+      });
+      setTimeout(() => {
+        btn.textContent='Send Message'; btn.style.background=''; btn.style.color='';
+      }, 3500);
+    }, 1800);
+  }
+
+  // ACTIVE NAV HIGHLIGHT
+  const navAs = document.querySelectorAll('.nav-links a');
+  const secs = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(s => { if(window.scrollY >= s.offsetTop - 140) cur = s.id; });
+    navAs.forEach(a => { a.style.color = a.getAttribute('href')==='#'+cur ? 'var(--gold)' : ''; });
+  });
+</script>
+</body>
+</html>
